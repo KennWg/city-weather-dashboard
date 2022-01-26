@@ -1,0 +1,29 @@
+/* general */
+
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
+:root {
+    --color1: #193489;
+    --color2: #113CFC;
+}
+
+h1, h2 {
+    font-weight: 700;
+}
+
+/* header */
+
+header {
+    background-color: var(--color1);
+    background-image: linear-gradient(to right, var(--color2), var(--color1));
+    color: white;
+}
+
+/*search element */
+
+#search-element label {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
