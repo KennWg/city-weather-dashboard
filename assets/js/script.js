@@ -15,7 +15,7 @@ var searchHandler = function(event){
 
 //function to get lat and long
 var getCoordinates = function(city){
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=04615da553e9e75a8da702267ce00f8b";
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=7110ef94f529d64b1f6c23466f380a00";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
@@ -46,13 +46,13 @@ var displayCities = function(data){
         
         //display content
         var cityContainer = document.createElement("div");
-        cityContainer.classList = "card city-option-card";
+        cityContainer.classList = "card city-option-card my-2";
         cityContainer.dataset.lat = data[i].lat;
         cityContainer.dataset.lon = data[i].lon;
         cityContainer.dataset.name = data[i].name;
         cityContainer.dataset.country = data[i].country;
         var cityText = document.createElement("p");
-        cityText.className = "card-text";
+        cityText.classList = "card-text px-2";
         cityContainer.appendChild(cityText);
 
         if(data[i].state){
@@ -65,5 +65,36 @@ var displayCities = function(data){
     }
 }
 
+//click handler for cards
+var clickHandler = function(event) {
+    if($(event.target).parent().hasClass("city-option-card")){
+        let lat = $(event.target).parent().attr("data-lat"),
+            lon = $(event.target).parent().attr("data-lon"),
+            name = $(event.target).parent().attr("data-name");
+
+        getWeather(lat,lon,name);
+        saveHistory(lat,lon,name);
+    }
+};
+
+//weather api call function
+var getWeather = function(lat,lon,name){
+
+}
+
+//save history function
+var saveHistory = function(lat,lon,name){
+
+}
+
+//load history function
+var loadHistory = function(){
+
+}
+
 // event listeners
 searchForm.addEventListener("submit", searchHandler);
+displayEl.addEventListener("click",clickHandler);
+
+//initial load
+loadHistory();

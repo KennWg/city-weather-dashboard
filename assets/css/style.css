@@ -34,6 +34,10 @@ header {
     font-size: 1.8rem;
 }
 
+.city-option-card {
+    background-color: lightgray;
+}
+
 .city-option-card:hover {
     cursor:pointer;
 }
