@@ -28,6 +28,12 @@ header {
     font-weight: 700;
 }
 
+/* history */
+
+.city-button{
+    font-weight: bold;
+}
+
 /* display area */
 
 #display-area {

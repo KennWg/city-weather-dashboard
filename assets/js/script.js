@@ -2,7 +2,8 @@ var displayEl = document.getElementById("display-area"),
     searchInput = document.getElementById("city-search"),
     searchForm = document.getElementById("search-form"),
     DateTime = luxon.DateTime,
-    savedCities = [];
+    savedCities = [],
+    historyList = document.getElementById("history-list");
 
 //search form handler
 var searchHandler = function(event){
@@ -74,6 +75,12 @@ var clickHandler = function(event) {
 
         getWeather(lat,lon,name);
         saveHistory(lat,lon,name);
+    } else if($(event.target).hasClass("city-button")){
+        let lat = $(event.target).attr("data-lat"),
+            lon = $(event.target).attr("data-lon"),
+            name = $(event.target).attr("data-name");
+
+        getWeather(lat,lon,name);
     }
 };
 
@@ -191,6 +198,15 @@ var displayWeather = function(data,name){
 
 //save history function
 var saveHistory = function(lat,lon,name){
+    //cycle through array and check if duplicate
+    for(let i=0; i<savedCities.length; i++){
+        console.log(name);
+        console.log(savedCities[i].name);
+        if(name===savedCities[i].name){
+            return;
+        }
+    }
+    
     //check length of array, remove last one if length 10
     if(savedCities.length > 9){
         savedCities.pop();
@@ -212,7 +228,20 @@ var saveHistory = function(lat,lon,name){
 
 //display history function
 var displayHistory = function(){
+    historyList.textContent = "";
+    //cycle through saved cities
+    for(let i=0; i < savedCities.length; i++){
 
+        //create list item
+        let historyLi = document.createElement("button");
+        historyLi.classList = "list-group-item list-group-item-action list-group-item-secondary my-2 city-button text-center"
+        historyLi.setAttribute("type","button");
+        historyLi.textContent = savedCities[i].name;
+        historyLi.dataset.lat = savedCities[i].lat;
+        historyLi.dataset.lon = savedCities[i].lon;
+        historyLi.dataset.name = savedCities[i].name;
+        historyList.appendChild(historyLi);
+    }
 };
 
 //load history function
@@ -223,7 +252,7 @@ var loadHistory = function(){
         return false;
     }
 
-    loadedCities = JSON.parse(loadedCities);
+    savedCities = JSON.parse(loadedCities);
 
     displayHistory();
 };
@@ -231,6 +260,7 @@ var loadHistory = function(){
 // event listeners
 searchForm.addEventListener("submit", searchHandler);
 displayEl.addEventListener("click",clickHandler);
+historyList.addEventListener("click",clickHandler);
 
 //initial load
 loadHistory();
