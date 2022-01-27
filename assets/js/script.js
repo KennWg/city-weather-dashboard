@@ -93,11 +93,10 @@ var getWeather = function(lat,lon,name){
 //display weather function
 var displayWeather = function(data,name){
     displayEl.textContent = "";
-    console.log(data.current.weather[0].description);
 
     //get local date of location
-    var localDate = DateTime.now().setZone(data.timezone);
-    console.log(localDate.toLocaleString(localDate.DATE_SHORT));
+    var UtcDate = DateTime.fromSeconds(data.current.dt,{zone:"utc"});
+    var localDate = UtcDate.setZone(data.timezone);
 
     //create containers
     var currentWeatherContainer = document.createElement("div");
@@ -127,27 +126,66 @@ var displayWeather = function(data,name){
     var currentWeatherDetails = document.createElement("p");
     currentWeatherContainer.appendChild(currentWeatherDetails);
     currentWeatherDetails.innerHTML = 
-    "Temp:  " + data.current.temp + " ℃ <br/>" +
-    "Wind:  " + data.current.wind_speed + " MPH <br/>" +
-    "Humidity:  " + data.current.humidity + " % <br/>" +
-    "UV Index:  " + "<span class='uv-index px-2 rounded'>" + data.current.uvi + "</span>"; 
-    console.log($(".uv-index").text());
-    console.log(typeof $(".uv.index").text());
-    console.log(typeof parseInt($(".uv-index").text()));
-    console.log(parseInt($(".uv-index").text()));
-    if(parseInt($(".uv-index").text()) >= 11){
+        "Temp:  " + data.current.temp + " ℃ <br/>" +
+        "Wind:  " + data.current.wind_speed + " MPH <br/>" +
+        "Humidity:  " + data.current.humidity + " % <br/>" +
+        "UV Index:  " + "<span class='uv-index px-2 rounded'>" + data.current.uvi + "</span>";
+    if (parseInt($(".uv-index").text()) >= 11) {
         $(".uv-index").css("backgroundColor", "purple");
-    } else if(parseInt($(".uv-index").text()) >= 8){
+    } else if (parseInt($(".uv-index").text()) >= 8) {
         $(".uv-index").css("backgroundColor", "red");
-    } else if(parseInt($(".uv-index").text()) >= 6){
+    } else if (parseInt($(".uv-index").text()) >= 6) {
         $(".uv-index").css("backgroundColor", "orange");
         (".uv-index").css("color", "black");
-    } else if(parseInt($(".uv-index").text()) >= 3){
+    } else if (parseInt($(".uv-index").text()) >= 3) {
         $(".uv-index").css("backgroundColor", "yellow");
         $(".uv-index").css("color", "black");
     } else {
         $(".uv-index").css("backgroundColor", "green");
     }
+
+    //populate 5 day forecast area
+    var forecastTitle = document.createElement("h2");
+    forecastTitle.textContent = ("5-Day Forecast:");
+    forecastContainer.appendChild(forecastTitle);
+    var forecastCardsContainer = document.createElement("div");
+    forecastCardsContainer.classList = "row m-2";
+    forecastContainer.appendChild(forecastCardsContainer);
+
+    //populate forecast cards via loop
+    for(let i=0; i<5; i++){
+
+        //get forecast date
+        let forecastUtc = DateTime.fromSeconds(data.daily[i].dt,{zone:"utc"});
+        let forecastDate = forecastUtc.setZone(data.timezone);
+
+        //populate date
+        var forecastCard = document.createElement("div");
+        forecastCard.classList = "card col-2 mr-4 p-1 forecast-card";
+        forecastCardsContainer.appendChild(forecastCard);
+        var cardDate = document.createElement("h3");
+        cardDate.className = "card-title";
+        cardDate.textContent = forecastDate.toLocaleString(forecastDate.DATE_SHORT);
+        forecastCard.appendChild(cardDate);
+
+        //populate icon
+        var forecastIcon = document.createElement("img");
+        forecastIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
+        forecastIcon.setAttribute("alt",data.daily[i].weather[0].description);
+        forecastIcon.setAttribute("width",50);
+        forecastIcon.setAttribute("height",50);
+        forecastCard.appendChild(forecastIcon);
+
+        //populate other information
+        var forecastDetails = document.createElement("p");
+        forecastCard.appendChild(forecastDetails);
+        forecastDetails.innerHTML =
+            "Temp Min:  " + data.daily[i].temp.min + " ℃ <br/>" + 
+            "Temp Max:  " + data.daily[i].temp.max + " ℃ <br/>" +
+            "Wind:  " + data.daily[i].wind_speed + " MPH <br/>" +
+            "Humidity:  " + data.daily[i].humidity + " %";
+    }
+
 };
 
 //save history function

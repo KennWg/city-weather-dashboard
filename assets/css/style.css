@@ -9,7 +9,7 @@ body {
     --color2: #113CFC;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-weight: 700;
 }
 
@@ -47,4 +47,17 @@ header {
 
 .uv-index {
     color: white;
+}
+
+/* forecast area */
+
+.forecast-card {
+    background-color: var(--color1);
+    color: white;
+    line-height: 2rem;
+    font-size: 1.2rem;
+}
+
+.forecast-card h3{
+    font-size: 1.3rem;
 }
