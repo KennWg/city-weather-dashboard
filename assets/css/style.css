@@ -23,7 +23,17 @@ header {
 
 /*search element */
 
-#search-element label {
+#search-form label {
     font-size: 1.8rem;
     font-weight: 700;
+}
+
+/* display area */
+
+#display-area {
+    font-size: 1.8rem;
+}
+
+.city-option-card:hover {
+    cursor:pointer;
 }
