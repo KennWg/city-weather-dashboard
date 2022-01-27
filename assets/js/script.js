@@ -1,6 +1,7 @@
 var displayEl = document.getElementById("display-area"),
     searchInput = document.getElementById("city-search"),
-    searchForm = document.getElementById("search-form");
+    searchForm = document.getElementById("search-form"),
+    DateTime = luxon.DateTime;
 
 //search form handler
 var searchHandler = function(event){
@@ -91,7 +92,32 @@ var getWeather = function(lat,lon,name){
 
 //display weather function
 var displayWeather = function(data,name){
+    displayEl.textContent = "";
+    console.log(data.current.weather[0].description);
 
+    //get local date of location
+    var localDate = DateTime.now().setZone(data.timezone);
+    console.log(localDate.toLocaleString(localDate.DATE_SHORT));
+
+    //create containers
+    var currentWeatherContainer = document.createElement("div");
+    currentWeatherContainer.classList = ("border border-secondary p-2 m-2")
+    var forecastContainer = document.createElement("div");
+    forecastContainer.classList = ("w-100 p2 m-2");
+    displayEl.appendChild(currentWeatherContainer);
+    displayEl.appendChild(forecastContainer);
+
+    //populate current weather area
+    var currentWeatherHeader = document.createElement("div");
+    currentWeatherHeader.classList = "row pl-3 align-items-center"
+    currentWeatherContainer.appendChild(currentWeatherHeader);
+    var currentWeatherTitle = document.createElement("h2");
+    currentWeatherTitle.textContent = name + " (" + localDate.toLocaleString(localDate.DATE_SHORT) + ")";
+    currentWeatherHeader.appendChild(currentWeatherTitle);
+    var currentWeatherIcon = document.createElement("img");
+    currentWeatherIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
+    currentWeatherIcon.setAttribute("alt",data.current.weather[0].description);
+    currentWeatherHeader.appendChild(currentWeatherIcon);
 };
 
 //save history function
