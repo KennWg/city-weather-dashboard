@@ -1,7 +1,8 @@
 var displayEl = document.getElementById("display-area"),
     searchInput = document.getElementById("city-search"),
     searchForm = document.getElementById("search-form"),
-    DateTime = luxon.DateTime;
+    DateTime = luxon.DateTime,
+    savedCities = [];
 
 //search form handler
 var searchHandler = function(event){
@@ -153,7 +154,7 @@ var displayWeather = function(data,name){
     forecastContainer.appendChild(forecastCardsContainer);
 
     //populate forecast cards via loop
-    for(let i=0; i<5; i++){
+    for(let i=1; i<6; i++){
 
         //get forecast date
         let forecastUtc = DateTime.fromSeconds(data.daily[i].dt,{zone:"utc"});
@@ -190,17 +191,41 @@ var displayWeather = function(data,name){
 
 //save history function
 var saveHistory = function(lat,lon,name){
+    //check length of array, remove last one if length 10
+    if(savedCities.length > 9){
+        savedCities.pop();
+    }
 
+    //add the new city to the front of the array
+    savedCities.unshift({
+        name: name,
+        lat: lat,
+        lon: lon
+    });
+
+    //save array in local storage
+    localStorage.setItem("cities",JSON.stringify(savedCities));
+
+    //call function to display updated array
+    displayHistory();
 };
 
 //display history function
-var displayHistory = function(lat,lon,name){
+var displayHistory = function(){
 
 };
 
 //load history function
 var loadHistory = function(){
+    var loadedCities = localStorage.getItem("cities");
 
+    if(!loadedCities){
+        return false;
+    }
+
+    loadedCities = JSON.parse(loadedCities);
+
+    displayHistory();
 };
 
 // event listeners
