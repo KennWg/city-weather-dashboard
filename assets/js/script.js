@@ -39,8 +39,6 @@ var displayCities = function(data){
     titleEl.textContent = "Please select the city below:";
     displayEl.appendChild(titleEl);
 
-    //loop over 
-
     //loop over the data array to display
     for (let i=0; i< data.length; i++){
         
@@ -79,18 +77,37 @@ var clickHandler = function(event) {
 
 //weather api call function
 var getWeather = function(lat,lon,name){
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=7110ef94f529d64b1f6c23466f380a00";
 
-}
+    fetch(apiUrl).then(function(response){
+        response.json().then(function(data){
+            console.log(data);
+            displayWeather(data,name);
+        });
+    }).catch(function(error){
+        displayEl.textContent = "Error in connecting to weather data";
+    });
+};
+
+//display weather function
+var displayWeather = function(data,name){
+
+};
 
 //save history function
 var saveHistory = function(lat,lon,name){
 
-}
+};
+
+//display history function
+var displayHistory = function(lat,lon,name){
+
+};
 
 //load history function
 var loadHistory = function(){
 
-}
+};
 
 // event listeners
 searchForm.addEventListener("submit", searchHandler);
