@@ -78,7 +78,7 @@ var clickHandler = function(event) {
 
 //weather api call function
 var getWeather = function(lat,lon,name){
-    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=7110ef94f529d64b1f6c23466f380a00";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=metric&appid=7110ef94f529d64b1f6c23466f380a00";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
@@ -108,6 +108,8 @@ var displayWeather = function(data,name){
     displayEl.appendChild(forecastContainer);
 
     //populate current weather area
+
+    //populate header
     var currentWeatherHeader = document.createElement("div");
     currentWeatherHeader.classList = "row pl-3 align-items-center"
     currentWeatherContainer.appendChild(currentWeatherHeader);
@@ -117,7 +119,35 @@ var displayWeather = function(data,name){
     var currentWeatherIcon = document.createElement("img");
     currentWeatherIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
     currentWeatherIcon.setAttribute("alt",data.current.weather[0].description);
+    currentWeatherIcon.setAttribute("width",50);
+    currentWeatherIcon.setAttribute("height",50);
     currentWeatherHeader.appendChild(currentWeatherIcon);
+
+    //populate details
+    var currentWeatherDetails = document.createElement("p");
+    currentWeatherContainer.appendChild(currentWeatherDetails);
+    currentWeatherDetails.innerHTML = 
+    "Temp:  " + data.current.temp + " ℃ <br/>" +
+    "Wind:  " + data.current.wind_speed + " MPH <br/>" +
+    "Humidity:  " + data.current.humidity + " % <br/>" +
+    "UV Index:  " + "<span class='uv-index px-2 rounded'>" + data.current.uvi + "</span>"; 
+    console.log($(".uv-index").text());
+    console.log(typeof $(".uv.index").text());
+    console.log(typeof parseInt($(".uv-index").text()));
+    console.log(parseInt($(".uv-index").text()));
+    if(parseInt($(".uv-index").text()) >= 11){
+        $(".uv-index").css("backgroundColor", "purple");
+    } else if(parseInt($(".uv-index").text()) >= 8){
+        $(".uv-index").css("backgroundColor", "red");
+    } else if(parseInt($(".uv-index").text()) >= 6){
+        $(".uv-index").css("backgroundColor", "orange");
+        (".uv-index").css("color", "black");
+    } else if(parseInt($(".uv-index").text()) >= 3){
+        $(".uv-index").css("backgroundColor", "yellow");
+        $(".uv-index").css("color", "black");
+    } else {
+        $(".uv-index").css("backgroundColor", "green");
+    }
 };
 
 //save history function

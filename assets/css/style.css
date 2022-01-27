@@ -32,6 +32,7 @@ header {
 
 #display-area {
     font-size: 1.8rem;
+    line-height: 3.5rem;
 }
 
 .city-option-card {
@@ -40,4 +41,10 @@ header {
 
 .city-option-card:hover {
     cursor:pointer;
+}
+
+/* current weather area */
+
+.uv-index {
+    color: white;
 }
