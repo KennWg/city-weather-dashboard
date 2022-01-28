@@ -18,7 +18,7 @@ var searchHandler = function(event){
 
 //function to get lat and long
 var getCoordinates = function(city){
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=7110ef94f529d64b1f6c23466f380a00";
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=dummyid";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
@@ -86,7 +86,7 @@ var clickHandler = function(event) {
 
 //weather api call function
 var getWeather = function(lat,lon,name){
-    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=metric&appid=7110ef94f529d64b1f6c23466f380a00";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=metric&appid=dummyid";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
@@ -169,7 +169,7 @@ var displayWeather = function(data,name){
 
         //populate date
         var forecastCard = document.createElement("div");
-        forecastCard.classList = "card col-12 col-2-md mr-4 p-1 forecast-card";
+        forecastCard.classList = "card col-12 col-md-2 mr-4 p-1 forecast-card";
         forecastCardsContainer.appendChild(forecastCard);
         var cardDate = document.createElement("h3");
         cardDate.className = "card-title";
