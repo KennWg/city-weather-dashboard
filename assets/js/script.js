@@ -169,7 +169,7 @@ var displayWeather = function(data,name){
 
         //populate date
         var forecastCard = document.createElement("div");
-        forecastCard.classList = "card col-2 mr-4 p-1 forecast-card";
+        forecastCard.classList = "card col-12 col-2-md mr-4 p-1 forecast-card";
         forecastCardsContainer.appendChild(forecastCard);
         var cardDate = document.createElement("h3");
         cardDate.className = "card-title";
