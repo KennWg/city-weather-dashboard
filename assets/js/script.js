@@ -18,7 +18,7 @@ var searchHandler = function(event){
 
 //function to get lat and long
 var getCoordinates = function(city){
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=dummyid";
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=dummyid";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
